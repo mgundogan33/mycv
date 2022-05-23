@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\FrontController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\FrontController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +21,9 @@ Route::get('/portfolio', [FrontController::class, 'portfolio'])->name('portfolio
 Route::get('/blog', [FrontController::class, 'blog'])->name('blog');
 Route::get('/contact', [FrontController::class, 'contact'])->name('contact');
 
-
+Route::prefix('admin')->middleware('auth')->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('admin.index');
+});
 
 
 

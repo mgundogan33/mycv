@@ -17,7 +17,15 @@
     <!-- Layout styles -->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <!-- End layout styles -->
+    <link rel="stylesheet" href="{{ asset('assets/sweet-alert/sweetalert2.min.css') }}">
+
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" />
+    <style>
+        .swal2-container.swal2-center>.swal2-popup {
+            display: grid !important;
+        }
+
+    </style>
 </head>
 
 <body>
@@ -28,7 +36,7 @@
                     <div class="card col-lg-4 mx-auto">
                         <div class="card-body px-5 py-5">
                             <h3 class="card-title text-left mb-3">Giriş</h3>
-                            <form action="" method="POST" id="loginForm">
+                            <form action="{{route('login')}}" method="POST" id="loginForm">
                                 @csrf
                                 <div class="form-group">
                                     <label for="email">Email *</label>
@@ -73,6 +81,7 @@
     <script src="{{ asset('assets/js/misc.js') }}"></script>
     <script src="{{ asset('assets/js/settings.js') }}"></script>
     <script src="{{ asset('assets/js/todolist.js') }}"></script>
+    <script src="{{ asset('assets/sweet-alert/sweetalert2.all.min.js') }}"></script>
     <!-- endinject -->
     <script>
         $('#btnLogin').click(function() {
@@ -80,16 +89,28 @@
             let password = document.querySelector('#password').value;
 
             if (email.trim() == '') {
-                alert('Email Adresi Yazın');
-            }
-            else if(!emailControl(email)){
-                alert('Geçerli Bir Email Adresi Yazınız');
-            }
 
-            else if (password.trim() == '') {
-                alert('Parola Yazınız');
-            }
-            else{
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Uyarı !',
+                    text: 'Email Adresinizi Yazmalısınız !',
+                    confirmButtonText: 'Tamam'
+                })
+            } else if (!emailControl(email)) {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Uyarı !',
+                    text: 'Lütfen Geçerli Bir Email Adresi Yazın !',
+                    confirmButtonText: 'Tamam'
+                });
+            } else if (password.trim() == '') {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Uyarı !',
+                    text: 'Lütfen Parolanızı Yazın !',
+                    confirmButtonText: 'Tamam'
+                })
+            } else {
                 $('#loginForm').submit();
             }
 
