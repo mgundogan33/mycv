@@ -82,21 +82,21 @@
                     title: 'Uyarı !',
                     text: 'Lütfen Eğitim Tarihini Kontrol Edin.',
                     confirmButtonText: 'Tamam'
-                })
+                });
             } else if ($('#university_name').val().trim() == '') {
                 Swal.fire({
                     icon: 'info',
                     title: 'Uyarı !',
                     text: 'Lütfen Üniversite Adını Kontrol Edin.',
                     confirmButtonText: 'Tamam'
-                })
+                });
             } else if ($('#university_branch').val().trim() == '') {
                 Swal.fire({
                     icon: 'info',
                     title: 'Uyarı !',
                     text: 'Lütfen Üniversite Bölümünü Kontrol Edin.',
                     confirmButtonText: 'Tamam'
-                })
+                });
             } else {
                 $('#createEducationForm').submit();
             }

@@ -25,6 +25,7 @@ Route::get('/contact', [FrontController::class, 'contact'])->name('contact');
 Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin.index');
     Route::get('/education-list', [EducationController::class, 'list'])->name('admin.education.list');
+    Route::post('/education-change-status', [EducationController::class, 'changeStatus'])->name('admin.education.changeStatus');
     Route::get('/education-add', [EducationController::class, 'addShow'])->name('admin.education.add');
     Route::post('/education-add', [EducationController::class, 'add']);
 });
