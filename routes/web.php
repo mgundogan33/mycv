@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FrontController;
+use App\Http\Controllers\EducationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,9 @@ Route::get('/contact', [FrontController::class, 'contact'])->name('contact');
 
 Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin.index');
+    Route::get('/education-list', [EducationController::class, 'list'])->name('admin.education.list');
+    Route::get('/education-add', [EducationController::class, 'addShow'])->name('admin.education.add');
+    Route::post('/education-add', [EducationController::class, 'add']);
 });
 
 

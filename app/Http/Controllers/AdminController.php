@@ -11,7 +11,8 @@ class AdminController extends Controller
         //
     }
 
-    public function index(){
-        dd('asd');
+    public function index()
+    {
+        return view('admin.index');
     }
 }
