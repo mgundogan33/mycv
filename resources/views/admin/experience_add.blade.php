@@ -71,6 +71,17 @@ if ($experience) {
                             <textarea class="form-control" name="description" id="description" cols="30" rows="10"
                                 placeholder="Açıklama">{{ $experience ? $experience->description : '' }}</textarea>
                         </div>
+
+                        <div class="form-group">
+                            <label for="order">Görüntülünecek Deneyim Sırası</label>
+                            <input type="text" class="form-control" name="order" id="order"
+                                placeholder="Görüntülünecek Deneyim Sırası"
+                                value="{{ $experience ? $experience->order : '' }}">
+                            @error('order')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         <div class="form-group">
                             <div class="form-check form-check-primary">
                                 <label class="form-check-label" for="status">

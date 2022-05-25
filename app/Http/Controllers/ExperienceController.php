@@ -28,6 +28,7 @@ class ExperienceController extends Controller
     {
         $status = 0;
         $active = 0;
+        $order=$request->order;
         if (isset($request->status)) {
             $status = 1;
         }
@@ -43,6 +44,7 @@ class ExperienceController extends Controller
                 'description' => $request->description,
                 'status' => $status,
                 'active' => $active,
+                'order'=>$order ? $order :999
             ]);
             alert()->success('Başarılı', $id . "ID'sine sahip Deneyim bilgisi güncellendi")->showConfirmButton('Tamam', '#3085d6')->persistent(true, true);
             return redirect()->route('admin.experience.list');
@@ -53,7 +55,8 @@ class ExperienceController extends Controller
                 'date' => $request->date,
                 'description' => $request->description,
                 'status' => $status,
-                'active' => $active
+                'active' => $active,
+                'order'=>$order ? $order :999
             ]);
             alert()->success('Başarılı', 'Deneyim bilgisi eklendi')->showConfirmButton('Tamam', '#3085d6')->persistent(true, true);
             return redirect()->route('admin.experience.list');

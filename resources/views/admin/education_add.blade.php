@@ -69,6 +69,17 @@ if ($education) {
                             <textarea class="form-control" name="description" id="description" cols="30" rows="10"
                                 placeholder="Açıklama">{{ $education ? $education->description : '' }}</textarea>
                         </div>
+
+                        <div class="form-group">
+                            <label for="order">Görüntülünecek Eğitim Sırası</label>
+                            <input type="text" class="form-control" name="order" id="order"
+                                placeholder="Görüntülünecek Eğitim Sırası"
+                                value="{{ $education ? $education->order : '' }}">
+                            @error('order')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         <div class="form-group">
                             <div class="form-check form-check-primary">
                                 <label class="form-check-label" for="status">
@@ -79,7 +90,8 @@ if ($education) {
                                             $checkStatus = '';
                                         }
                                     @endphp
-                                    <input type="checkbox" name="status" id="status" class="form-check-input" {{ $checkStatus}}>
+                                    <input type="checkbox" name="status" id="status" class="form-check-input"
+                                        {{ $checkStatus }}>
                                     Eğitim Anasaydafa Gösterilme Durumu</label>
                             </div>
                         </div>
