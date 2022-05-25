@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\EducationController;
+use App\Http\Controllers\ExperienceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,13 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::post('/education-delete', [EducationController::class, 'delete'])->name('admin.education.delete');
     Route::get('/education-add', [EducationController::class, 'addShow'])->name('admin.education.add');
     Route::post('/education-add', [EducationController::class, 'add']);
+
+    Route::get('/experience-list', [ExperienceController::class, 'list'])->name('admin.experience.list');
+    Route::get('/experience-add', [ExperienceController::class, 'addShow'])->name('admin.experience.add');
+    Route::post('/experience-add', [ExperienceController::class, 'add']);
+    Route::post('/experience-change-status', [ExperienceController::class, 'changeStatus'])->name('admin.experience.changeStatus');
+    Route::post('/experience-change-active', [ExperienceController::class, 'activeStatus'])->name('admin.experience.activeStatus');
+    Route::post('/experience-delete', [ExperienceController::class, 'delete'])->name('admin.experience.delete');
 });
 
 

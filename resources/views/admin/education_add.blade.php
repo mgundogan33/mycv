@@ -25,7 +25,7 @@ if ($education) {
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('admin.index') }}">Admin Panel</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('admin.education.list') }}">Eğitim Bilgileri Listesi</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Yeni Eğitim Ekleme</li>
+                <li class="breadcrumb-item active" aria-current="page">{{ $educationText }}</li>
             </ol>
         </nav>
     </div>
