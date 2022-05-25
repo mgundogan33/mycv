@@ -36,6 +36,8 @@
                         <table class="table">
                             <thead>
                                 <tr>
+                                    <th>Düzenle</th>
+                                    <th>Sil</th>
                                     <th>#</th>
                                     <th>Eğitim Tarihi</th>
                                     <th>Üniversite</th>
@@ -48,7 +50,13 @@
                             </thead>
                             <tbody>
                                 @foreach ($list as $item)
-                                    <tr>
+                                    <tr id="{{ $item->id }}">
+                                        <td><a  href="{{route('admin.education.add',['educationID'=>$item->id])}}"
+                                                class="btn btn-warning editEducation">Düzenle<i
+                                                    class="fa fa-edit"></i></a></td>
+                                        <td><a data-id='{{ $item->id }}' href="javascript:void(0)"
+                                                class="btn btn-danger deleteEducation">Sil<i class="fa fa-trash"></i></a>
+                                        </td>
                                         <td>{{ $item->id }}</td>
                                         <td>{{ $item->education_date }}</td>
                                         <td>{{ $item->university_name }}</td>
@@ -83,10 +91,8 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-
-
         $('.changeStatus').click(function() {
-            let educationID = $(this).attr('data-id');
+            let educationID = $(this).data('id');
             let self = $(this);
             $.ajax({
                 url: "{{ route('admin.education.changeStatus') }}",
@@ -95,22 +101,19 @@
                 data: {
                     educationID: educationID
                 },
-                success: function (response)
-                {
+                success: function(response) {
                     Swal.fire({
                         icon: 'success',
                         title: 'Başarılı !',
-                        text: response.educationID + " ID'li kayıt durumu " + response.newStatus + " olarak güncellenmiştir.",
+                        text: response.educationID + " ID'li kayıt durumu " + response
+                            .newStatus + " olarak güncellenmiştir.",
                         confirmButtonText: "Tamam"
                     });
-                    if (response.status == 1)
-                    {
+                    if (response.status == 1) {
                         self[0].innerHTML = "Aktif";
                         self.removeClass("btn-danger");
                         self.addClass("btn-success");
-                    }
-                    else if (response.status == 0)
-                    {
+                    } else if (response.status == 0) {
                         self[0].innerHTML = "Pasif";
                         self.removeClass("btn-success");
                         self.addClass("btn-danger");
@@ -118,6 +121,46 @@
                 },
                 error: function() {
 
+                }
+            });
+        });
+
+        $('.deleteEducation').click(function() {
+            let educationID = $(this).attr('data-id');
+
+            Swal.fire({
+                title: 'Emin misiniz?',
+                text: educationID + "ID'li egitim bilgisini silmek istediğinize emin misiniz",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Evet',
+                cancelButtonText: 'Hayır'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    $.ajax({
+                        url: "{{ route('admin.education.delete') }}",
+                        type: 'POST',
+                        async: false,
+                        data: {
+                            educationID: educationID
+                        },
+                        success: function(response) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Başarılı',
+                                text: 'Silme işlemi başaralı.',
+                                confirmButtonText: 'Tamam'
+                            });
+                            $("tr#" + educationID).remove();
+
+                        },
+                        error: function() {
+
+                        }
+                    });
                 }
             })
         });
