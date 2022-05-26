@@ -111,7 +111,14 @@
               <span class="menu-title">Deneyim Bilgileri</span>
             </a>
           </li>
-
+          <li class="nav-item menu-items">
+            <a class="nav-link" href="{{route('personalInformation.index')}}">
+              <span class="menu-icon">
+                <i class="mdi mdi-playlist-play"></i>
+              </span>
+              <span class="menu-title">Kişisel Bilgileri</span>
+            </a>
+          </li>
 
         </ul>
       </nav>

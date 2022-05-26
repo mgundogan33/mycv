@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\EducationController;
 use App\Http\Controllers\ExperienceController;
+use App\Http\Controllers\PersonalInformationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,18 +26,27 @@ Route::get('/contact', [FrontController::class, 'contact'])->name('contact');
 
 Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin.index');
-    Route::get('/education-list', [EducationController::class, 'list'])->name('admin.education.list');
-    Route::post('/education-change-status', [EducationController::class, 'changeStatus'])->name('admin.education.changeStatus');
-    Route::post('/education-delete', [EducationController::class, 'delete'])->name('admin.education.delete');
-    Route::get('/education-add', [EducationController::class, 'addShow'])->name('admin.education.add');
-    Route::post('/education-add', [EducationController::class, 'add']);
 
-    Route::get('/experience-list', [ExperienceController::class, 'list'])->name('admin.experience.list');
-    Route::get('/experience-add', [ExperienceController::class, 'addShow'])->name('admin.experience.add');
-    Route::post('/experience-add', [ExperienceController::class, 'add']);
-    Route::post('/experience-change-status', [ExperienceController::class, 'changeStatus'])->name('admin.experience.changeStatus');
-    Route::post('/experience-change-active', [ExperienceController::class, 'activeStatus'])->name('admin.experience.activeStatus');
-    Route::post('/experience-delete', [ExperienceController::class, 'delete'])->name('admin.experience.delete');
+    Route::prefix('/education')->group(function () {
+        Route::get('/list', [EducationController::class, 'list'])->name('admin.education.list');
+        Route::post('/change-status', [EducationController::class, 'changeStatus'])->name('admin.education.changeStatus');
+        Route::post('/delete', [EducationController::class, 'delete'])->name('admin.education.delete');
+        Route::get('/add', [EducationController::class, 'addShow'])->name('admin.education.add');
+        Route::post('/add', [EducationController::class, 'add']);
+    });
+
+    Route::prefix('/experience')->group(function () {
+        Route::get('/list', [ExperienceController::class, 'list'])->name('admin.experience.list');
+        Route::get('/add', [ExperienceController::class, 'addShow'])->name('admin.experience.add');
+        Route::post('/add', [ExperienceController::class, 'add']);
+        Route::post('/change-status', [ExperienceController::class, 'changeStatus'])->name('admin.experience.changeStatus');
+        Route::post('/change-active', [ExperienceController::class, 'activeStatus'])->name('admin.experience.activeStatus');
+        Route::post('/delete', [ExperienceController::class, 'delete'])->name('admin.experience.delete');
+    });
+
+    Route::get('personal_information', [PersonalInformationController::class, 'index'])->name('personalInformation.index');
+    Route::post('personal_information', [PersonalInformationController::class, 'update']);
+
 });
 
 
