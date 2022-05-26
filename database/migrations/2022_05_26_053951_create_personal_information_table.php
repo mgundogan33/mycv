@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreatePersonalInformationTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('personal_information', function (Blueprint $table) {
+        Schema::create('personal_information', function (Blueprint $table)
+        {
             $table->id();
             $table->string('main_title');
             $table->text('about_text');
@@ -27,7 +28,7 @@ return new class extends Migration
             $table->string('website');
             $table->string('phone');
             $table->string('mail');
-            $table->string('addres');
+            $table->string('address');
             $table->string('cv');
             $table->text('languages')->nullable();
             $table->text('interests')->nullable();
@@ -44,4 +45,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('personal_information');
     }
-};
+}
