@@ -45,8 +45,11 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     });
 
     Route::get('personal_information', [PersonalInformationController::class, 'index'])->name('personalInformation.index');
-    Route::post('personal_information', [PersonalInformationController::class, 'update']);
-
+    Route::get('personal_add', [PersonalInformationController::class, 'create']);
+    Route::post('personal_add', [PersonalInformationController::class, 'add'])->name('personal_add');
+    Route::get('personal_edit/{id}', [PersonalInformationController::class, 'edit'])->name('personal_edit');
+    Route::patch('personal_information/{id}', [PersonalInformationController::class, 'update'])->name('personal_update');
+    Route::delete('personal_sil/{id}', [PersonalInformationController::class, 'destroy'])->name('personal_delete');
 });
 
 

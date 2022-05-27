@@ -2,88 +2,131 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PersonalInformation;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Models\PersonalInformation;
+use Illuminate\Support\Facades\Storage;
 
 class PersonalInformationController extends Controller
 {
     public function index()
     {
-        $information = PersonalInformation::find(1);
-
+        $information = PersonalInformation::latest()->paginate(10);
         return view('admin.personal_information', compact('information'));
+    }
+    public function create()
+    {
+        return view('admin.personal_add');
+    }
+    public function add(Request $request)
+    {
+
+        //return $request->all();
+        $request->validate([
+            'main_title'       => 'required',
+            'about_text'       => 'required',
+            'btn_contact_text' => 'required',
+            'small_title_left' => 'required',
+            'small_title_right' => 'required',
+            'full_name'        => 'required',
+            'image'            => 'mimes:jpeg,jpg,png',
+            'task_name'        => 'required',
+            'birthday'         => 'required',
+            'website'          => 'required',
+            'phone'            => 'required',
+            'mail'             => 'required|email',
+            'address'          => 'required',
+            'languages'        => 'required',
+            'interests'        => 'required',
+            'cv'               => 'mimes:pdf,doc,docx',
+        ]);
+        if ($request->file()) {
+            $request->file('image')
+                ->storeAs('image', $request->image->getClientOriginalName(), 'public');
+            $request->file('cv')
+                ->storeAs('cv', $request->cv->getClientOriginalName(), 'public');
+        }
+        PersonalInformation::create([
+            'main_title'        => $request->main_title,
+            'about_text'        => $request->about_text,
+            'btn_contact_text'  => $request->btn_contact_text,
+            'small_title_left'  => $request->small_title_left,
+            'small_title_right' => $request->small_title_right,
+            'full_name'         => $request->full_name,
+            'image'             => $request->image->getClientOriginalName(),
+            'task_name'         => $request->task_name,
+            'birthday'          => $request->birthday,
+            'website'           => $request->website,
+            'phone'             => $request->phone,
+            'mail'              => $request->mail,
+            'address'           => $request->address,
+            'languages'         => $request->languages,
+            'interests'         => $request->interests,
+            'cv'                => $request->cv->getClientOriginalName(),
+        ]);
+        alert()->success('Başarılı', 'Kişisel bilgileriniz başarıyla eklendi')->showConfirmButton('Tamam', '#3085d6')->persistent(true, true);
+        return redirect()->route('personalInformation.index');
+    }
+
+    public function edit(Request $request)
+    {
+        $information = PersonalInformation::whereId($request->id)->firstOrFail();
+        return view('admin.personal_edit', compact('information'));
     }
 
     public function update(Request $request)
     {
-        $this->validate($request,
-            [
-                'cv' => 'mimes:pdf,doc,docx',
-                'image' => 'mimes:jpeg,jpg,png',
-                'title_left' => 'required',
-                'title_right' => 'required'
-            ],
-            [
-                'cv.mimes' => 'Seçilen cv yalnızca .pdf, .doc, .docx uzantılı olabilir.',
-                'image.mimes' => 'Seçilen resim yalnızca .jpeg, .jpg, .png uzantılı olabilir.',
-                'title_left.required' => 'Lütfen eğitim listesinin başlığını yazın.',
-                'title_right.required' => 'Lütfen deneyim listesinin başlığını yazın'
-            ]);
+        // dd($request->all());
+        $request->validate([
+            'main_title'       => 'required',
+            'about_text'       => 'required',
+            'btn_contact_text' => 'required',
+            'small_title_left' => 'required',
+            'small_title_right' => 'required',
+            'full_name'        => 'required',
+            'image'            => 'nullable|mimes:jpeg,jpg,png',
+            'task_name'        => 'required',
+            'birthday'         => 'required',
+            'website'          => 'required',
+            'phone'            => 'required',
+            'mail'             => 'required|email',
+            'address'          => 'required',
+            'languages'        => 'required',
+            'interests'        => 'required',
+            'cv'               => 'nullable|mimes:pdf,doc,docx',
+        ]);
 
-        $information = PersonalInformation::find(1);
-        if ($request->file('cv'))
-        {
-            $file = $request->file('cv');
-            $extension = $file->getClientOriginalExtension();
-            $fileOriginalName = $file->getClientOriginalName();
-            $explode = explode('.', $fileOriginalName);
-
-            $fileOriginalName = Str::slug($explode[0], '-') . '_' . now()->format('d-m-Y_H-i-s') . '.' . $extension;
-            Storage::putFileAs('public/cv', $file, $fileOriginalName);
-            $information->cv = 'cv/' . $fileOriginalName;
+        if ($request->file()) {
+            $request->file('image')
+                ->storeAs('image', $request->image->getClientOriginalName(), 'public');
+            $request->file('cv')
+                ->storeAs('cv', $request->cv->getClientOriginalName(), 'public');
         }
-
-        if ($request->file('image'))
-        {
-            $file = $request->file('image');
-            $extension = $file->getClientOriginalExtension();
-            $fileOriginalName = $file->getClientOriginalName();
-            $explode = explode('.', $fileOriginalName);
-            $fileOriginalName = Str::slug($explode[0], '-') . '_' . now()->format('d-m-Y_H-i-s') . '.' . $extension;
-
-            Storage::putFileAs('public/image', $file, $fileOriginalName);
-            $information->image = 'image/' . $fileOriginalName;
-
-        }
-
-
-        $information->main_title = $request->main_title;
-        $information->about_text = $request->about_text;
-        $information->btn_contact_text = $request->btn_contact_text;
-        $information->btn_contact_link = $request->btn_contact_link;
-        $information->small_title_left = $request->small_title_left;
-        $information->title_left = $request->title_left;
-        $information->small_title_right = $request->small_title_right;
-        $information->title_right = $request->title_right;
-        $information->full_name = $request->full_name;
-        $information->task_name = $request->task_name;
-        $information->birthday = $request->birthday;
-        $information->website = $request->website;
-        $information->phone = $request->phone;
-        $information->mail = $request->mail;
-        $information->address = $request->address;
-        $information->languages = $request->lang;
-        $information->interests = $request->interests;
-
-        $information->save();
-
-
-        alert()->success('Başarılı', "Kişisel bilgileriniz güncellendi")
-            ->showConfirmButton('Tamam', '#3085d6')
-            ->persistent(true, true);
-
-        return redirect()->back();
+        PersonalInformation::find($request->id)->update([
+            'main_title'        => $request->main_title,
+            'about_text'        => $request->about_text,
+            'btn_contact_text'  => $request->btn_contact_text,
+            'small_title_left'  => $request->small_title_left,
+            'small_title_right' => $request->small_title_right,
+            'full_name'         => $request->full_name,
+            'image'             => $request->image->getClientOriginalName(),
+            'task_name'         => $request->task_name,
+            'birthday'          => $request->birthday,
+            'website'           => $request->website,
+            'phone'             => $request->phone,
+            'mail'              => $request->mail,
+            'address'           => $request->address,
+            'languages'         => $request->languages,
+            'interests'         => $request->interests,
+            'cv'                => $request->cv->getClientOriginalName(),
+        ]);
+        alert()->success('Başarılı', 'Kişisel bilgileriniz başarıyla eklendi')->showConfirmButton('Tamam', '#3085d6')->persistent(true, true);
+        return redirect()->route('personal_edit', $request->id);
+    }
+    public function destroy(Request $request)
+    {
+        PersonalInformation::findOrFail($request->id)->delete();
+        alert()->success('Başarılı', 'Kişisel bilgileriniz başarıyla Silindi.')->showConfirmButton('Tamam', '#3085d6')->persistent(true, true);
+        return redirect()->route('personalInformation.index');
     }
 }

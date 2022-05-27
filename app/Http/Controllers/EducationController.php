@@ -47,6 +47,7 @@ class EducationController extends Controller
 
     public function add(EducationAddRequest $request)
     {
+        //return $request->all();
         $status = 0;
         $order = $request->order;
         if (isset($request->status)) {
