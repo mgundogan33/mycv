@@ -8,12 +8,12 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/ckeditor/samples/css/samples.css') }}">
     <link rel="stylesheet" type="text/css"
         href="{{ asset('assets/ckeditor/samples/toolbarconfigurator/lib/codemirror/neo.css') }}">
-        <style>
-            .swal2-container.swal2-center>.swal2-popup {
-                display: grid !important;
-            }
+    <style>
+        .swal2-container.swal2-center>.swal2-popup {
+            display: grid !important;
+        }
 
-        </style>
+    </style>
 @endsection
 
 @section('content')
@@ -57,7 +57,23 @@
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
-
+                        <div class="form-group">
+                            <label for="btn_contact_link">Bana Ulaşın Butonu Link</label>
+                            <input type="text" class="form-control" name="btn_contact_link" id="btn_contact_link"
+                                placeholder="Bana Ulaşın Butonu Link">
+                            @error('btn_contact_link')
+                                <div class=" alert alert-danger">{{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="title_left">Eğitim Başlığı </label>
+                            <input type="text" class="form-control" name="title_left" id="title_left"
+                                placeholder="Eğitim Başlığı Üzerindeki Ufak Başlık">
+                            @error('title_left')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
                         <div class="form-group">
                             <label for="small_title_left">Eğitim Başlığı Üzerindeki Ufak Başlık</label>
                             <input type="text" class="form-control" name="small_title_left" id="small_title_left"
@@ -66,7 +82,14 @@
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
-
+                        <div class="form-group">
+                            <label for="title_right">Deneyim Başlığı </label>
+                            <input type="text" class="form-control" name="title_right" id="title_right"
+                                placeholder="Deneyim Başlığı">
+                            @error('title_right')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
                         <div class="form-group">
                             <label for="small_title_right">Deneyim Başlığı Üzerindeki Ufak Başlık</label>
                             <input type="text" class="form-control" name="small_title_right" id="small_title_right"

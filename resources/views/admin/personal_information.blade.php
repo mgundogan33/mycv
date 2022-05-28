@@ -39,6 +39,7 @@
                                         <th> # </th>
                                         <th> İsim Soyisim </th>
                                         <th> image </th>
+                                        <th> cv </th>
                                         <th> Oluşturma Tarihi </th>
                                         <th>İşlem</th>
                                     </tr>
@@ -49,7 +50,9 @@
                                     <tr class="table-info">
                                         <td> {{ $cv->id }}</td>
                                         <td> {{ $cv->full_name }}</td>
-                                        <td> {{ asset('storage/image/' . $cv->image) }}</td>
+                                        <td align="center"> <img src="{{ asset('storage/image/' . $cv->image) }}" class="img-responsive" /></td>
+                                        <td> {{ $cv->cv }}</td>
+
                                         <td> {{ $cv->created_at->diffForHumans() }}</td>
                                         <td>
                                             <a href="{{ route('personal_edit', $cv->id) }}"

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\PersonalInformation;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 class PersonalInformationController extends Controller
@@ -26,10 +27,13 @@ class PersonalInformationController extends Controller
             'main_title'       => 'required',
             'about_text'       => 'required',
             'btn_contact_text' => 'required',
+            'btn_contact_link' => 'required',
             'small_title_left' => 'required',
+            'title_left'       => 'required',
             'small_title_right' => 'required',
+            'title_right'      => 'required',
             'full_name'        => 'required',
-            'image'            => 'mimes:jpeg,jpg,png',
+            'image'            => 'nullable|mimes:jpeg,jpg,png',
             'task_name'        => 'required',
             'birthday'         => 'required',
             'website'          => 'required',
@@ -38,7 +42,7 @@ class PersonalInformationController extends Controller
             'address'          => 'required',
             'languages'        => 'required',
             'interests'        => 'required',
-            'cv'               => 'mimes:pdf,doc,docx',
+            'cv'               => 'nullable|mimes:pdf,doc,docx',
         ]);
         if ($request->file()) {
             $request->file('image')
@@ -50,8 +54,11 @@ class PersonalInformationController extends Controller
             'main_title'        => $request->main_title,
             'about_text'        => $request->about_text,
             'btn_contact_text'  => $request->btn_contact_text,
+            'btn_contact_link'  => $request->btn_contact_link,
             'small_title_left'  => $request->small_title_left,
+            'title_left'        => $request->title_left,
             'small_title_right' => $request->small_title_right,
+            'title_right'       => $request->title_right,
             'full_name'         => $request->full_name,
             'image'             => $request->image->getClientOriginalName(),
             'task_name'         => $request->task_name,
@@ -76,13 +83,15 @@ class PersonalInformationController extends Controller
 
     public function update(Request $request)
     {
-        // dd($request->all());
         $request->validate([
             'main_title'       => 'required',
             'about_text'       => 'required',
             'btn_contact_text' => 'required',
+            'btn_contact_link' => 'required',
             'small_title_left' => 'required',
+            'title_left'       => 'required',
             'small_title_right' => 'required',
+            'title_right'      => 'required',
             'full_name'        => 'required',
             'image'            => 'nullable|mimes:jpeg,jpg,png',
             'task_name'        => 'required',
@@ -96,18 +105,36 @@ class PersonalInformationController extends Controller
             'cv'               => 'nullable|mimes:pdf,doc,docx',
         ]);
 
-        if ($request->file()) {
+
+        $file = PersonalInformation::select('id', 'image', 'cv')->where('id', $request->id)->first();
+        if ($request->file('image')) {
+            $control=public_path('storage/image/' . $file->image);
+           if(File::exists($control)){
+               unlink($control);
+           }
             $request->file('image')
                 ->storeAs('image', $request->image->getClientOriginalName(), 'public');
+        }
+        if ($request->file('cv')) {
+            $control=public_path('storage/cv/' . $file->image);
+           if(File::exists($control)){
+               unlink($control);
+           }
             $request->file('cv')
                 ->storeAs('cv', $request->cv->getClientOriginalName(), 'public');
         }
+
+
+
         PersonalInformation::find($request->id)->update([
             'main_title'        => $request->main_title,
             'about_text'        => $request->about_text,
             'btn_contact_text'  => $request->btn_contact_text,
+            'btn_contact_link'  => $request->btn_contact_link,
             'small_title_left'  => $request->small_title_left,
-            'small_title_right' => $request->small_title_right,
+            'title_left'        => $request->title_left,
+            'small_title_right'  => $request->small_title_right,
+            'title_right'       => $request->title_right,
             'full_name'         => $request->full_name,
             'image'             => $request->image->getClientOriginalName(),
             'task_name'         => $request->task_name,

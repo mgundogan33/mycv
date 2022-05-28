@@ -87,7 +87,7 @@
           <li class="nav-item nav-category">
             <span class="nav-link">Navigation</span>
           </li>
-          <li class="nav-item menu-items">
+          <li class="nav-item menu-items {{Route::is('admin.index') ? "active" : ''}}">
             <a class="nav-link" href="{{route('admin.index')}}">
               <span class="menu-icon">
                 <i class="mdi mdi-speedometer"></i>
@@ -95,7 +95,7 @@
               <span class="menu-title">Admin Panel</span>
             </a>
           </li>
-          <li class="nav-item menu-items">
+          <li class="nav-item menu-items{{Route::is('admin.education.list') ? "active" : ''}}">
             <a class="nav-link" href="{{route('admin.education.list')}}">
               <span class="menu-icon">
                 <i class="mdi mdi-playlist-play"></i>
@@ -103,7 +103,7 @@
               <span class="menu-title">Eğitim Bilgileri</span>
             </a>
           </li>
-          <li class="nav-item menu-items">
+          <li class="nav-item menu-items{{Route::is('admin.experience.list') ? "active" : ''}}">
             <a class="nav-link" href="{{route('admin.experience.list')}}">
               <span class="menu-icon">
                 <i class="mdi mdi-playlist-play"></i>
@@ -111,7 +111,7 @@
               <span class="menu-title">Deneyim Bilgileri</span>
             </a>
           </li>
-          <li class="nav-item menu-items">
+          <li class="nav-item menu-items{{Route::is('personalInformation.index') ? "active" : ''}}">
             <a class="nav-link" href="{{route('personalInformation.index')}}">
               <span class="menu-icon">
                 <i class="mdi mdi-playlist-play"></i>
@@ -119,7 +119,14 @@
               <span class="menu-title">Kişisel Bilgileri</span>
             </a>
           </li>
-
+          <li class="nav-item menu-items {{Route::is('admin.socialMedia.list') ? "active" : ''}}">
+            <a class="nav-link" href="{{route('admin.socialMedia.list')}}">
+              <span class="menu-icon">
+                <i class="mdi mdi-playlist-play"></i>
+              </span>
+              <span class="menu-title">Sosyal Medya</span>
+            </a>
+          </li>
         </ul>
       </nav>
       <!-- partial -->

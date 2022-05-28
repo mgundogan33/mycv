@@ -6,6 +6,7 @@ use App\Http\Controllers\FrontController;
 use App\Http\Controllers\EducationController;
 use App\Http\Controllers\ExperienceController;
 use App\Http\Controllers\PersonalInformationController;
+use App\Http\Controllers\SocialMediaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,11 +19,13 @@ use App\Http\Controllers\PersonalInformationController;
 |
 */
 
-Route::get('/', [FrontController::class, 'index'])->name('index');
-Route::get('/resume', [FrontController::class, 'resume'])->name('resume');
-Route::get('/portfolio', [FrontController::class, 'portfolio'])->name('portfolio');
-Route::get('/blog', [FrontController::class, 'blog'])->name('blog');
-Route::get('/contact', [FrontController::class, 'contact'])->name('contact');
+Route::middleware('frontDataShare')->group(function () {
+    Route::get('/', [FrontController::class, 'index'])->name('index');
+    Route::get('/resume', [FrontController::class, 'resume'])->name('resume');
+    Route::get('/portfolio', [FrontController::class, 'portfolio'])->name('portfolio');
+    Route::get('/blog', [FrontController::class, 'blog'])->name('blog');
+    Route::get('/contact', [FrontController::class, 'contact'])->name('contact');
+});
 
 Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin.index');
@@ -50,6 +53,14 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('personal_edit/{id}', [PersonalInformationController::class, 'edit'])->name('personal_edit');
     Route::patch('personal_information/{id}', [PersonalInformationController::class, 'update'])->name('personal_update');
     Route::delete('personal_sil/{id}', [PersonalInformationController::class, 'destroy'])->name('personal_delete');
+
+    Route::prefix('social-media')->group(function () {
+        Route::get('/list', [SocialMediaController::class, 'list'])->name('admin.socialMedia.list');
+        Route::get('/add', [SocialMediaController::class, 'addShow'])->name('admin.socialMedia.add');
+        Route::post('/add', [SocialMediaController::class, 'add']);
+        Route::post('/change-status', [SocialMediaController::class, 'changeStatus'])->name('admin.socialMedia.changeStatus');
+        Route::post('/delete', [SocialMediaController::class, 'delete'])->name('admin.socialMedia.delete');
+    });
 });
 
 

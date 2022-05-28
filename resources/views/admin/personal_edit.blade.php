@@ -55,9 +55,27 @@
                         <div class="form-group">
                             <label for="btn_contact_text">Bana Ulaşın Butonu Text</label>
                             <input type="text" class="form-control" name="btn_contact_text" id="btn_contact_text"
-                                   placeholder="Bana Ulaşın Butonu"
+                                   placeholder="Bana Ulaşın Butonu Text"
                                    value="{{ $information->btn_contact_text }}">
                             @error('btn_contact_text')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="btn_contact_link">Bana Ulaşın Butonu Link</label>
+                            <input type="text" class="form-control" name="btn_contact_link" id="btn_contact_link"
+                                   placeholder="Bana Ulaşın Butonu Link"
+                                   value="{{ $information->btn_contact_link }}">
+                            @error('btn_contact_link')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="title_left">Eğitim Başlığı </label>
+                            <input type="text" class="form-control" name="title_left" id="title_left"
+                                   placeholder="Eğitim Başlığı"
+                                   value="{{ $information->title_left }}">
+                            @error('title_left')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
@@ -67,6 +85,15 @@
                                    placeholder="Eğitim Başlığı Üzerindeki Ufak Başlık"
                                    value="{{ $information->small_title_left }}">
                             @error('small_title_left')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                       <div class="form-group">
+                            <label for="title_right">Deneyim Başlığı </label>
+                            <input type="text" class="form-control" name="title_right" id="title_right"
+                                   placeholder="Deneyim Başlığı"
+                                   value="{{ $information->title_right }}">
+                            @error('title_right')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
@@ -94,7 +121,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <label  for="image">Resim</label>
-                                    <input type="file" class="form-control" name="image" id="image">
+                                    <input type="file" class="form-control" name="image" id="image" value="{{ $information->image }}" >
                                     @error('image')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror
@@ -169,7 +196,7 @@
 
                         <div class="form-group">
                             <label for="cv">Özgeçmiş</label>
-                            <input type="file" class="form-control" name="cv" id="cv">
+                            <input type="file" class="form-control" name="cv" id="cv" value="{{ $information->cv }}">
                             @error('cv')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror

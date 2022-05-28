@@ -10,8 +10,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title')</title>
     <link href="https://fonts.googleapis.com/css?family=Mukta:300,400,500,600,700&amp;display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{asset('assets/vendors/%40fortawesome/fontawesome-free/css/all.min.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/css/live-resume.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/%40fortawesome/fontawesome-free/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/live-resume.css') }}">
     @yield('css')
 </head>
 
@@ -21,49 +21,46 @@
     <div class="content-wrapper">
         <aside>
             <div class="profile-img-wrapper">
-                <img src="assets/images/Profile.png" alt="profile">
+                <img src="{{ 'storage/image/' . $personal->image }}" alt="{{ $personal->full_name }}" >
             </div>
-            <h1 class="profile-name">Daisy Murphy</h1>
+            <h1 class="profile-name">{{ $personal->full_name }}</h1>
             <div class="text-center">
-                <span class="badge badge-white badge-pill profile-designation">UI / UX Designer</span>
+                <span class="badge badge-white badge-pill profile-designation">{{ $personal->task_name }}</span>
             </div>
+
+
             <nav class="social-links">
-                <a href="#!" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                <a href="#!" class="social-link"><i class="fab fa-twitter"></i></a>
-                <a href="#!" class="social-link"><i class="fab fa-behance"></i></a>
-                <a href="#!" class="social-link"><i class="fab fa-dribbble"></i></a>
-                <a href="#!" class="social-link"><i class="fab fa-github"></i></a>
+                @foreach ($socialMediaData as $item)
+                    <a href="{{$item->link ? $item->link : 'javascript:void(0)' }}" target="_blank" title="{{$item->name}}" class="social-link">
+                    {!! $item->icon !!}
+                    </a>
+                @endforeach
             </nav>
             <div class="widget">
-                <h5 class="widget-title">personal information</h5>
+                <h5 class="widget-title">KİŞİSEL BİLGİLER</h5>
                 <div class="widget-content">
-                    <p>BIRTHDAY : 15 April 1990</p>
-                    <p>WEBSITE : www.example.com</p>
-                    <p>PHONE : +1 123 000 4444</p>
-                    <p>MAIL : your@example.com</p>
-                    <p>Location : California, USA</p>
-                    <button class="btn btn-download-cv btn-primary rounded-pill"> <img src="assets/images/download.svg"
-                            alt="download" class="btn-img">DOWNLOAD CV </button>
+                    <p>Doğum Tarihi : {{$personal->birthday}}</p>
+                    <p>WEBSITE : {{$personal->website}}</p>
+                    <p>Telefon : {{$personal->phone}}</p>
+                    <p>Mail : {{$personal->mail}}</p>
+                    <p>Adres : {{$personal->address}}</p>
+                    <a href="{{asset('storage/cv/'.$personal->cv)}}" target="_blank" class="btn btn-download-cv btn-primary rounded-pill">
+                        <img src="assets/images/download.svg"alt="download" class="btn-img">Özgeçmişimi İndir </a>
                 </div>
             </div>
             <div class="widget card">
                 <div class="card-body">
                     <div class="widget-content">
-                        <h5 class="widget-title card-title">LANGUAGES</h5>
-                        <p>English : native</p>
-                        <p>Spanish : fluent</p>
-                        <p>Italian : fluent</p>
+                        <h5 class="widget-title card-title">DİLLER</h5>
+                      {!! $personal->languages !!}
                     </div>
                 </div>
             </div>
             <div class="widget card">
                 <div class="card-body">
                     <div class="widget-content">
-                        <h5 class="widget-title card-title">INTERESTS</h5>
-                        <p>Video games</p>
-                        <p>Finance</p>
-                        <p>Basketball</p>
-                        <p>Theatre</p>
+                        <h5 class="widget-title card-title">HOBİLER</h5>
+                       {!! $personal->interests !!}
                     </div>
                 </div>
             </div>
@@ -78,10 +75,10 @@
             </footer>
         </main>
     </div>
-    <script src="{{asset('assets/vendors/jquery/dist/jquery.min.js')}}"></script>
-    <script src="{{asset('assets/vendors/%40popperjs/core/dist/umd/popper-base.min.js')}}"></script>
-    <script src="{{asset('assets/vendors/bootstrap/dist/js/bootstrap.min.js')}}"></script>
-    <script src="{{asset('assets/js/live-resume.js')}}"></script>
+    <script src="{{ asset('assets/vendors/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/vendors/%40popperjs/core/dist/umd/popper-base.min.js') }}"></script>
+    <script src="{{ asset('assets/vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('assets/js/live-resume.js') }}"></script>
     @yield('js')
 </body>
 
