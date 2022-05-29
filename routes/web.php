@@ -6,6 +6,7 @@ use App\Http\Controllers\FrontController;
 use App\Http\Controllers\EducationController;
 use App\Http\Controllers\ExperienceController;
 use App\Http\Controllers\PersonalInformationController;
+use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\SocialMediaController;
 
 /*
@@ -61,6 +62,10 @@ Route::prefix('admin')->middleware('auth')->group(function () {
         Route::post('/change-status', [SocialMediaController::class, 'changeStatus'])->name('admin.socialMedia.changeStatus');
         Route::post('/delete', [SocialMediaController::class, 'delete'])->name('admin.socialMedia.delete');
     });
+    Route::resource('portfolio', PortfolioController::class);
+
+
+
 });
 
 
