@@ -63,9 +63,12 @@ Route::prefix('admin')->middleware('auth')->group(function () {
         Route::post('/delete', [SocialMediaController::class, 'delete'])->name('admin.socialMedia.delete');
     });
     Route::resource('portfolio', PortfolioController::class);
-
-
-
+    Route::post('portfolio/change-status', [PortfolioController::class, 'changeStatus'])->name('portfolio.changeStatus');
+    Route::get('portfolio/images/{id}', [PortfolioController::class, 'showImages'])->name('portfolio.showImages')->whereNumber('id');
+    Route::post('portfolio/images/{id}', [PortfolioController::class, 'newImage'])->name('portfolio.newImage')->whereNumber('id');
+    Route::delete('portfolio/images/{id}', [PortfolioController::class, 'deleteImage'])->name('portfolio.deleteImage')->whereNumber('id');
+    Route::put('portfolio/images/{id}', [PortfolioController::class, 'featureImage'])->name('portfolio.featureImage')->whereNumber('id');
+    Route::post('portfolio/images/{id}/change-status', [PortfolioController::class, 'changeStatusImage'])->name('portfolio.changeStatusImage')->whereNumber('id');
 });
 
 
