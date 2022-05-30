@@ -45,7 +45,7 @@
                     <p>Mail : {{$personal->mail}}</p>
                     <p>Adres : {{$personal->address}}</p>
                     <a href="{{asset('storage/cv/'.$personal->cv)}}" target="_blank" class="btn btn-download-cv btn-primary rounded-pill">
-                        <img src="assets/images/download.svg"alt="download" class="btn-img">Özgeçmişimi İndir </a>
+                        <img src="{{asset('assets/images/download.svg')}}"alt="download" class="btn-img">Özgeçmişimi İndir </a>
                 </div>
             </div>
             <div class="widget card">

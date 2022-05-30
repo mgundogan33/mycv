@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Education;
+use App\Models\Portfolio;
 use App\Models\Experience;
-use App\Models\PersonalInformation;
 use App\Models\SocialMedia;
 use Illuminate\Http\Request;
+use App\Models\PersonalInformation;
 
 class FrontController extends Controller
 {
@@ -31,7 +32,20 @@ class FrontController extends Controller
     }
     public function portfolio()
     {
-        return view('pages.portfolio');
+        $portfolio = Portfolio::with('featuredImage')->where('status', 1)
+            ->orderByDesc('id')->get();
+        return view('pages.portfolio', compact('portfolio'));
+    }
+    public function portfolioDetail($id)
+    {
+        $portfolio = Portfolio::with('images')->where('status', 1)
+            ->where('id', $id)->first();
+
+        if (is_null($portfolio)) {
+            abort(404, 'Portfolio bulunamadı');
+        }
+
+        return view('pages.portfolioDetail', compact('portfolio'));
     }
     public function blog()
     {

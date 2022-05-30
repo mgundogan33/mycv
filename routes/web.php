@@ -24,6 +24,7 @@ Route::middleware('frontDataShare')->group(function () {
     Route::get('/', [FrontController::class, 'index'])->name('index');
     Route::get('/resume', [FrontController::class, 'resume'])->name('resume');
     Route::get('/portfolio', [FrontController::class, 'portfolio'])->name('portfolio');
+    Route::get('/portfolio/{id}', [FrontController::class, 'portfolioDetail'])->name('portfolio.detail')->whereNumber('id');
     Route::get('/blog', [FrontController::class, 'blog'])->name('blog');
     Route::get('/contact', [FrontController::class, 'contact'])->name('contact');
 });
