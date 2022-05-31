@@ -1,13 +1,15 @@
 <?php
 
+use UniSharp\LaravelFilemanager\Lfm;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\EducationController;
-use App\Http\Controllers\ExperienceController;
-use App\Http\Controllers\PersonalInformationController;
 use App\Http\Controllers\PortfolioController;
+use App\Http\Controllers\ExperienceController;
 use App\Http\Controllers\SocialMediaController;
+use App\Http\Controllers\PersonalInformationController;
+use Biscolab\ReCaptcha\Controllers\ReCaptchaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +30,8 @@ Route::middleware('frontDataShare')->group(function () {
     Route::get('/blog', [FrontController::class, 'blog'])->name('blog');
     Route::get('/contact', [FrontController::class, 'contact'])->name('contact');
 });
+
+Route::get('recaptcha/validate', [ReCaptchaController::class, 'validateV3']);
 
 Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin.index');
@@ -70,6 +74,10 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::delete('portfolio/images/{id}', [PortfolioController::class, 'deleteImage'])->name('portfolio.deleteImage')->whereNumber('id');
     Route::put('portfolio/images/{id}', [PortfolioController::class, 'featureImage'])->name('portfolio.featureImage')->whereNumber('id');
     Route::post('portfolio/images/{id}/change-status', [PortfolioController::class, 'changeStatusImage'])->name('portfolio.changeStatusImage')->whereNumber('id');
+
+    Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+        \UniSharp\LaravelFilemanager\Lfm::routes();
+    });
 });
 
 

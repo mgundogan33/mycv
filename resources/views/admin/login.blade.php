@@ -20,6 +20,31 @@
     <link rel="stylesheet" href="{{ asset('assets/sweet-alert/sweetalert2.min.css') }}">
 
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    @if (config('recaptcha.status') && config('recaptcha.version') == 'v2')
+        {!! htmlScriptTagJsApi() !!}
+    @elseif(config('recaptcha.status') && config('recaptcha.version') == 'v3')
+        <script type="text/javascript">
+            function callbackThen(response) {
+                // read HTTP status
+                console.log(response.status);
+
+                // read Promise object
+                response.json().then(function(data) {
+                    console.log(data);
+                });
+            }
+            function callbackCatch(error) {
+                console.error('Error:', error)
+            }
+        </script>
+        {!! htmlScriptTagJsApi([
+    'action' => 'homepage',
+    'callback_then' => 'callbackThen',
+    'callback_catch' => 'callbackCatch',
+]) !!}
+    @endif
     <style>
         .swal2-container.swal2-center>.swal2-popup {
             display: grid !important;
@@ -36,7 +61,7 @@
                     <div class="card col-lg-4 mx-auto">
                         <div class="card-body px-5 py-5">
                             <h3 class="card-title text-left mb-3">Giriş</h3>
-                            <form action="{{route('login')}}" method="POST" id="loginForm">
+                            <form action="{{ route('login') }}" method="POST" id="loginForm">
                                 @csrf
                                 <div class="form-group">
                                     <label for="email">Email *</label>
@@ -47,6 +72,13 @@
                                     <label for="password">Password *</label>
                                     <input type="password" class="form-control p_input" id="password" name="password">
                                 </div>
+
+                                <div class="form-group">
+                                    @if (config('recaptcha.status') && config('recaptcha.version') == 'v2')
+                                        {!! htmlFormSnippet() !!}
+                                    @endif
+                                </div>
+
                                 <div class="form-group d-flex align-items-center justify-content-between">
                                     <div class="form-check">
                                         <label class="form-check-label">

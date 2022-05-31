@@ -8,10 +8,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>@yield('title')</title>
     <link href="https://fonts.googleapis.com/css?family=Mukta:300,400,500,600,700&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/vendors/%40fortawesome/fontawesome-free/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/live-resume.css') }}">
+    @if (config('recaptcha.status') && config('recaptcha.version') == 'v2')
+        {!! htmlScriptTagJsApi() !!}
+    @elseif(config('recaptcha.status') && config('recaptcha.version') == 'v3')
+        <script type="text/javascript">
+            function callbackThen(response) {
+                // read HTTP status
+                console.log(response.status);
+
+                // read Promise object
+                response.json().then(function(data) {
+                    console.log(data);
+                });
+            }
+
+            function callbackCatch(error) {
+                console.error('Error:', error)
+            }
+        </script>
+        {!! htmlScriptTagJsApi([
+    'action' => 'homepage',
+    'callback_then' => 'callbackThen',
+    'callback_catch' => 'callbackCatch',
+]) !!}
+    @endif
     @yield('css')
 </head>
 
@@ -21,7 +47,7 @@
     <div class="content-wrapper">
         <aside>
             <div class="profile-img-wrapper">
-                <img src="{{ 'storage/image/' . $personal->image }}" alt="{{ $personal->full_name }}" >
+                <img src="{{ asset('storage/image/' . $personal->image) }}" alt="{{ $personal->full_name }}">
             </div>
             <h1 class="profile-name">{{ $personal->full_name }}</h1>
             <div class="text-center">
@@ -31,28 +57,31 @@
 
             <nav class="social-links">
                 @foreach ($socialMediaData as $item)
-                    <a href="{{$item->link ? $item->link : 'javascript:void(0)' }}" target="_blank" title="{{$item->name}}" class="social-link">
-                    {!! $item->icon !!}
+                    <a href="{{ $item->link ? $item->link : 'javascript:void(0)' }}" target="_blank"
+                        title="{{ $item->name }}" class="social-link">
+                        {!! $item->icon !!}
                     </a>
                 @endforeach
             </nav>
             <div class="widget">
                 <h5 class="widget-title">KİŞİSEL BİLGİLER</h5>
                 <div class="widget-content">
-                    <p>Doğum Tarihi : {{$personal->birthday}}</p>
-                    <p>WEBSITE : {{$personal->website}}</p>
-                    <p>Telefon : {{$personal->phone}}</p>
-                    <p>Mail : {{$personal->mail}}</p>
-                    <p>Adres : {{$personal->address}}</p>
-                    <a href="{{asset('storage/cv/'.$personal->cv)}}" target="_blank" class="btn btn-download-cv btn-primary rounded-pill">
-                        <img src="{{asset('assets/images/download.svg')}}"alt="download" class="btn-img">Özgeçmişimi İndir </a>
+                    <p>Doğum Tarihi : {{ $personal->birthday }}</p>
+                    <p>WEBSITE : {{ $personal->website }}</p>
+                    <p>Telefon : {{ $personal->phone }}</p>
+                    <p>Mail : {{ $personal->mail }}</p>
+                    <p>Adres : {{ $personal->address }}</p>
+                    <a href="{{ asset('storage/cv/' . $personal->cv) }}" target="_blank"
+                        class="btn btn-download-cv btn-primary rounded-pill">
+                        <img src="{{ asset('assets/images/download.svg') }}" alt="download"
+                            class="btn-img">Özgeçmişimi İndir </a>
                 </div>
             </div>
             <div class="widget card">
                 <div class="card-body">
                     <div class="widget-content">
                         <h5 class="widget-title card-title">DİLLER</h5>
-                      {!! $personal->languages !!}
+                        {!! $personal->languages !!}
                     </div>
                 </div>
             </div>
@@ -60,7 +89,7 @@
                 <div class="card-body">
                     <div class="widget-content">
                         <h5 class="widget-title card-title">HOBİLER</h5>
-                       {!! $personal->interests !!}
+                        {!! $personal->interests !!}
                     </div>
                 </div>
             </div>

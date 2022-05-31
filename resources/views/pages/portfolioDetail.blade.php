@@ -18,7 +18,7 @@
 
         <div class="portfolio-wrapper">
             @foreach($portfolio->images as $item)
-                <figure class="portfolio-item hover-box" href="{{ asset('storage/portfolio/'.$item->image)  }}">
+                <figure style="cursor:pointer" class="portfolio-item hover-box" href="{{ asset('storage/portfolio/'.$item->image)  }}">
                     <img src="{{ asset('storage/portfolio/'.$item->image)  }}"
                          alt="{{ $portfolio->title }}"
                          class="portfolio-item-img">
